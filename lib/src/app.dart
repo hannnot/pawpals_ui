@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:pawpals_ui/src/sceens/homeScreen.dart';
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    MaterialApp(
-      title: 'Flutter Demo',
+    return MaterialApp(
+      title: 'PawPals',
       theme: ThemeData(
-        
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        appBarTheme: AppBarTheme(color: Colors.teal),
       ),
-      home: null, //TODO add homeScreen
+      home: HomeScreen(),
     );
   }
 }
