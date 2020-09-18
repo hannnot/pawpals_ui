@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:pawpals_ui/src/consts.dart' as consts;
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,7 +24,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (_form.currentState.validate()) {
       _form.currentState.save();
       //TODO make network request to validate input WITH VALID url
-      http.Response response = await http.post('', body:jsonEncode(<String,dynamic> {'firstname': firstname,
+      http.Response response = await http.post(consts.registerUrl, body:jsonEncode(<String,dynamic> {'firstname': firstname,
         'lastname': lastname,
         'email': email,
         'password': pwd,
