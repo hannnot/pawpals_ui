@@ -29,7 +29,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             'lastname': lastname,
             'email': email,
             'password': pwd,
-            'phonenumber': phonenumber
+            'phoneNumber': phonenumber
           }),
           headers: {'Content-Type': 'application/json;charset=UTF-8'});
       if (response.statusCode == HttpStatus.created) {
