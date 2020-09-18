@@ -14,6 +14,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String pwd;
   String firstname;
   String lastname;
+  String phonenumber;
 
   final _form = GlobalKey<FormState>();
 
@@ -24,7 +25,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       http.Response response = await http.post('', body:jsonEncode(<String,dynamic> {'firstname': firstname,
         'lastname': lastname,
         'email': email,
-        'password': pwd
+        'password': pwd,
+        'phonenumber': phonenumber
       }),
       headers: {'Content-Type': 'application/json;charset=UTF-8'});
       if (response.statusCode == HttpStatus.created) {
@@ -79,6 +81,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         } else {
                           setState(() {
                             lastname = value;
+                          });
+                          return null;
+                        }
+                      },
+                    ),
+                    SizedBox(height: 10),
+                    TextFormField(
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: 'Phonenumber',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter Phonenumber';
+                        } else {
+                          setState(() {
+                            phonenumber = value;
                           });
                           return null;
                         }
