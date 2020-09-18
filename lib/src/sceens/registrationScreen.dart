@@ -13,7 +13,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String pwd;
   String firstname;
   String lastname;
-  String phonenumber;
 
   final _form = GlobalKey<FormState>();
 
@@ -24,7 +23,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       http.Response response = await http.post('', body: {
         'firstname': firstname,
         'lastname': lastname,
-        'phonenumber': phonenumber,
         'email': email,
         'password': pwd
       });
@@ -80,23 +78,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         } else {
                           setState(() {
                             lastname = value;
-                          });
-                          return null;
-                        }
-                      },
-                    ),
-                    SizedBox(height: 10),
-                    TextFormField(
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        labelText: 'Phonenumber',
-                      ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter Phonenumber';
-                        } else {
-                          setState(() {
-                            phonenumber = value;
                           });
                           return null;
                         }
