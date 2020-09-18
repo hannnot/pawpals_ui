@@ -39,7 +39,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             headers: {'Content-Type': 'application/json;charset=UTF-8'});
 
         if (regResponse.statusCode == HttpStatus.ok) {
-          Navigator.of(context).pushReplacementNamed('/',
+          Navigator.of(context).pushReplacementNamed('/user-dashboard',
               arguments: {'auth': regResponse.headers['authorization']});
         }
       }
