@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -20,12 +21,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (_form.currentState.validate()) {
       _form.currentState.save();
       //TODO make network request to validate input WITH VALID url
-      http.Response response = await http.post('', body: {
-        'firstname': firstname,
+      http.Response response = await http.post('', body:jsonEncode(<String,dynamic> {'firstname': firstname,
         'lastname': lastname,
         'email': email,
         'password': pwd
-      });
+      }),
+      headers: {'Content-Type': 'application/json;charset=UTF-8'});
       if (response.statusCode == HttpStatus.created) {
         //TODO create dashboard screen
         Navigator.of(context).pushReplacementNamed('/');
