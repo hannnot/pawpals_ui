@@ -23,17 +23,25 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   void _saveForm() async {
     if (_form.currentState.validate()) {
       _form.currentState.save();
-      //TODO make network request to validate input WITH VALID url
-      http.Response response = await http.post(consts.registerUrl, body:jsonEncode(<String,dynamic> {'firstname': firstname,
-        'lastname': lastname,
-        'email': email,
-        'password': pwd,
-        'phonenumber': phonenumber
-      }),
-      headers: {'Content-Type': 'application/json;charset=UTF-8'});
+      http.Response response = await http.post(consts.registerUrl,
+          body: jsonEncode(<String, dynamic>{
+            'firstname': firstname,
+            'lastname': lastname,
+            'email': email,
+            'password': pwd,
+            'phonenumber': phonenumber
+          }),
+          headers: {'Content-Type': 'application/json;charset=UTF-8'});
       if (response.statusCode == HttpStatus.created) {
-        //TODO create dashboard screen
-        Navigator.of(context).pushReplacementNamed('/');
+        http.Response regResponse = await http.post(consts.registerUrl,
+            body:
+                jsonEncode(<String, dynamic>{'email': email, 'password': pwd}),
+            headers: {'Content-Type': 'application/json;charset=UTF-8'});
+
+        if (regResponse.statusCode == HttpStatus.ok) {
+          Navigator.of(context).pushReplacementNamed('/',
+              arguments: {'auth': regResponse.headers['authorization']});
+        }
       }
     }
   }
