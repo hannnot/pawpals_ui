@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:pawpals_ui/src/consts.dart' as consts;
 
@@ -18,13 +19,16 @@ class _HomeScreenState extends State<HomeScreen> {
   void _saveForm() async {
     if (_form.currentState.validate()) {
       _form.currentState.save();
-      //TODO make network request to validate input WITH VALID url
-      http.Response response = await http
-          .post(consts.loginUrl, body: {'email': email, 'password': pwd});
+
+      http.Response response = await http.post(consts.loginUrl,
+          body: jsonEncode(<String, dynamic>{'email': email, 'password': pwd}),
+          headers: {'Content-Type': 'application/json;charset=UTF-8'});
+
       if (response.statusCode == HttpStatus.accepted) {
+        var body = jsonDecode(response.body);
         //TODO check wether user is admin or normal user
-        Navigator.of(context).pushReplacementNamed('/dashboard',
-            arguments: {'auth': response.headers['authorization']});
+        Navigator.of(context).pushReplacementNamed('/user-dashboard',
+            arguments: {'auth': body['token']});
       }
     }
   }
@@ -84,8 +88,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.teal[200],
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
-                      onPressed: /* _saveForm */ () => Navigator.of(context)
-                          .pushReplacementNamed('/user-dashboard'),
+                      onPressed:
+                          _saveForm /* () => Navigator.of(context)
+                          .pushReplacementNamed('/user-dashboard') */
+                      ,
                       child: Container(
                         width: 150,
                         child: Center(child: Text('Login')),

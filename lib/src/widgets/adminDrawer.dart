@@ -33,7 +33,6 @@ class AdminDrawer extends StatelessWidget {
             leading: Icon(Icons.supervisor_account),
             title: Text('Manage users'),
             onTap: () async {
-              
               var users = await getUsers();
               // TODO create manage user screen
               Navigator.of(context).pushNamed('/manage-users', arguments: {'auth': token, 'users': users});

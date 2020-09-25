@@ -33,14 +33,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           }),
           headers: {'Content-Type': 'application/json;charset=UTF-8'});
       if (response.statusCode == HttpStatus.created) {
-        http.Response regResponse = await http.post(consts.registerUrl,
-            body:
-                jsonEncode(<String, dynamic>{'email': email, 'password': pwd}),
+        http.Response regResponse = await http.post(consts.loginUrl,
+            body: jsonEncode(<String, dynamic>{'email': email, 'password': pwd}),
             headers: {'Content-Type': 'application/json;charset=UTF-8'});
-
         if (regResponse.statusCode == HttpStatus.ok) {
+          var body = jsonDecode(regResponse.body);
           Navigator.of(context).pushReplacementNamed('/user-dashboard',
-              arguments: {'auth': regResponse.headers['authorization']});
+              arguments: {'auth': body['token']});
         }
       }
     }
