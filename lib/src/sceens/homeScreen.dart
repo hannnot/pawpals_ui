@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:pawpals_ui/src/consts.dart' as consts;
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -18,11 +19,12 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_form.currentState.validate()) {
       _form.currentState.save();
       //TODO make network request to validate input WITH VALID url
-      http.Response response =
-          await http.post('', body: {'email': email, 'password': pwd});
+      http.Response response = await http
+          .post(consts.loginUrl, body: {'email': email, 'password': pwd});
       if (response.statusCode == HttpStatus.accepted) {
-        //TODO create dashboard screen
-        Navigator.of(context).pushReplacementNamed('/dashboard');
+        //TODO check wether user is admin or normal user
+        Navigator.of(context).pushReplacementNamed('/dashboard',
+            arguments: {'auth': response.headers['authorization']});
       }
     }
   }
@@ -82,7 +84,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.teal[200],
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
-                      onPressed: /* _saveForm */ () => Navigator.of(context).pushReplacementNamed('/user-dashboard'),
+                      onPressed: /* _saveForm */ () => Navigator.of(context)
+                          .pushReplacementNamed('/user-dashboard'),
                       child: Container(
                         width: 150,
                         child: Center(child: Text('Login')),
@@ -93,7 +96,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 30),
               FlatButton(
-                onPressed: () => Navigator.of(context).pushReplacementNamed('/register'),
+                onPressed: () =>
+                    Navigator.of(context).pushReplacementNamed('/register'),
                 child: Container(
                   child: Text('Or REGISTER Now'),
                 ),
