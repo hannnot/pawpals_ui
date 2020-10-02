@@ -11,7 +11,7 @@ class AdminDrawer extends StatelessWidget {
   AdminDrawer({@required this.token});
 
   Future<List<Map<String, dynamic>>> getUsers()async{
-    http.Response response = await http.get(consts.accountOverview, headers: {'authorization': token});
+    http.Response response = await http.get(consts.usersUrl, headers: {'authorization': token});
     return List<Map<String,dynamic>>.from(json.decode(response.body));
   }
   

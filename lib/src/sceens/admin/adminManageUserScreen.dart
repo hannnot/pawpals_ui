@@ -31,8 +31,7 @@ class _AdminManageUserScreenState extends State<AdminManageUserScreen> {
                 icon: Icon(Icons.delete_forever, color: Colors.red,),
                 onPressed: () async {
                   http.Response response = await http.post(
-                    consts.deactivateAccount +
-                        '${arguments['users'][index]['id']}',
+                    consts.deactivateUserUrl + '${arguments['users'][index]['id']}',
                     headers: {
                       'authorization': arguments['auth'],
                       'Content-Type': 'application/json;charset=UTF-8'
