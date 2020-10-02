@@ -25,14 +25,17 @@ class _HomeScreenState extends State<HomeScreen> {
           headers: {'Content-Type': 'application/json;charset=UTF-8'});
 
       if (response.statusCode == HttpStatus.ok) {
-        // TODO remove
-        print('login reqest succesful');
+        // FIXME: 
+        // 1. Get token the correct way
+        // 2. Only navigate if token is set 
+        //    (otherwise authorizazion wasn't successful and error should be displayed)
 
+        // var body = jsonDecode(response.headers);
+        // print(response.headers['Authorization']);
 
-        var body = jsonDecode(response.body);
         //TODO check wether user is admin or normal user
         Navigator.of(context).pushReplacementNamed('/user-dashboard',
-            arguments: {'auth': body['token']});
+            arguments: {'auth': response.headers['Authorization']});
       }
     }
   }

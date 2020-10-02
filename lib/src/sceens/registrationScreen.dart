@@ -37,9 +37,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             body: jsonEncode(<String, dynamic>{'email': email, 'password': pwd}),
             headers: {'Content-Type': 'application/json;charset=UTF-8'});
         if (regResponse.statusCode == HttpStatus.ok) {
-          var body = jsonDecode(regResponse.body);
+         // FIXME: 
+        // 1. Get token the correct way
+        // 2. Only navigate if token is set 
+        //    (otherwise authorizazion wasn't successful and error should be displayed)
+
           Navigator.of(context).pushReplacementNamed('/user-dashboard',
-              arguments: {'auth': body['token']});
+              arguments: {'auth': response.headers['Authorization']});
         }
       }
     }
