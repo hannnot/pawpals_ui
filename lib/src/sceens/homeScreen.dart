@@ -24,7 +24,11 @@ class _HomeScreenState extends State<HomeScreen> {
           body: jsonEncode(<String, dynamic>{'email': email, 'password': pwd}),
           headers: {'Content-Type': 'application/json;charset=UTF-8'});
 
-      if (response.statusCode == HttpStatus.accepted) {
+      if (response.statusCode == HttpStatus.ok) {
+        // TODO remove
+        print('login reqest succesful');
+
+
         var body = jsonDecode(response.body);
         //TODO check wether user is admin or normal user
         Navigator.of(context).pushReplacementNamed('/user-dashboard',
