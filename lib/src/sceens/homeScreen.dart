@@ -26,16 +26,23 @@ class _HomeScreenState extends State<HomeScreen> {
           headers: {'Content-Type': 'application/json;charset=UTF-8'});
 
       if (response.headers['authorization'] != '') {
-            var token = response.headers['authorization'].split(' ')[1];
-            Map<String, dynamic> decodedUser = JwtDecoder.decode(token);
-            print(decodedUser);
-            /* Navigator.of(context).pushReplacementNamed('/user-dashboard',
-                arguments: {
-                  'auth': response.headers['authorization'],
-                  'userInfo': decodedUser
-                }); */
+        var token = response.headers['authorization'].split(' ')[1];
+        Map<String, dynamic> decodedUser = JwtDecoder.decode(token);
+        
+        if ((decodedUser['roles'] as List).contains('ADMIN')) {
+          Navigator.of(context).pushReplacementNamed('/admin-dashboard',
+              arguments: {
+                'auth': response.headers['authorization'],
+                'userInfo': decodedUser
+              });
+        } else {
+          Navigator.of(context).pushReplacementNamed('/user-dashboard',
+              arguments: {
+                'auth': response.headers['authorization'],
+                'userInfo': decodedUser
+              });
+        }
       }
-        //TODO check wether user is admin or normal user
     }
   }
 
