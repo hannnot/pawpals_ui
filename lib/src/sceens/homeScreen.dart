@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:pawpals_ui/src/consts.dart' as consts;
 
 import 'package:flutter/material.dart';
@@ -24,19 +25,17 @@ class _HomeScreenState extends State<HomeScreen> {
           body: jsonEncode(<String, dynamic>{'email': email, 'password': pwd}),
           headers: {'Content-Type': 'application/json;charset=UTF-8'});
 
-      if (response.statusCode == HttpStatus.ok) {
-        // FIXME: 
-        // 1. Get token the correct way
-        // 2. Only navigate if token is set 
-        //    (otherwise authorizazion wasn't successful and error should be displayed)
-
-        // var body = jsonDecode(response.headers);
-        // print(response.headers['Authorization']);
-
-        //TODO check wether user is admin or normal user
-        Navigator.of(context).pushReplacementNamed('/user-dashboard',
-            arguments: {'auth': response.headers['Authorization']});
+      if (response.headers['authorization'] != '') {
+            var token = response.headers['authorization'].split(' ')[1];
+            Map<String, dynamic> decodedUser = JwtDecoder.decode(token);
+            print(decodedUser);
+            /* Navigator.of(context).pushReplacementNamed('/user-dashboard',
+                arguments: {
+                  'auth': response.headers['authorization'],
+                  'userInfo': decodedUser
+                }); */
       }
+        //TODO check wether user is admin or normal user
     }
   }
 

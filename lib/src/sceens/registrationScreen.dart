@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:pawpals_ui/src/consts.dart' as consts;
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -34,16 +34,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           headers: {'Content-Type': 'application/json;charset=UTF-8'});
       if (response.statusCode == HttpStatus.created) {
         http.Response regResponse = await http.post(consts.loginUrl,
-            body: jsonEncode(<String, dynamic>{'email': email, 'password': pwd}),
+            body:
+                jsonEncode(<String, dynamic>{'email': email, 'password': pwd}),
             headers: {'Content-Type': 'application/json;charset=UTF-8'});
         if (regResponse.statusCode == HttpStatus.ok) {
-         // FIXME: 
-        // 1. Get token the correct way
-        // 2. Only navigate if token is set 
-        //    (otherwise authorizazion wasn't successful and error should be displayed)
-
-          Navigator.of(context).pushReplacementNamed('/user-dashboard',
-              arguments: {'auth': response.headers['Authorization']});
+          if (regResponse.headers['authorization'] != '') {
+            var token = regResponse.headers['authorization'].split(' ')[1];
+            Map<String, dynamic> decodedUser = JwtDecoder.decode(token);
+            print(decodedUser);
+            /* Navigator.of(context).pushReplacementNamed('/user-dashboard',
+                arguments: {
+                  'auth': response.headers['authorization'],
+                  'userInfo': decodedUser
+                }); */
+          }
         }
       }
     }
