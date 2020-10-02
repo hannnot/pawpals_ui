@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pawpals_ui/src/consts.dart' as consts;
 
 class AdminDrawer extends StatelessWidget {
 
@@ -8,10 +11,8 @@ class AdminDrawer extends StatelessWidget {
   AdminDrawer({@required this.token});
 
   Future<List<Map<String, dynamic>>> getUsers()async{
-    //TODO make get all user request
-    http.Response response = await http.get('url', headers: {'authorization': token});
-    var users = List<Map<String, dynamic>>.from(response.body as List<Map<String,dynamic>>);
-    return users;
+    http.Response response = await http.get(consts.accountOverview, headers: {'authorization': token});
+    return List<Map<String,dynamic>>.from(json.decode(response.body));
   }
   
   @override
@@ -34,6 +35,7 @@ class AdminDrawer extends StatelessWidget {
             title: Text('Manage users'),
             onTap: () async {
               var users = await getUsers();
+              users.forEach((element) {print(element);});
               // TODO create manage user screen
               Navigator.of(context).pushNamed('/manage-users', arguments: {'auth': token, 'users': users});
             },

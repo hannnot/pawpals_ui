@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pawpals_ui/src/consts.dart' as consts;
+import 'package:pawpals_ui/src/widgets/adminDrawer.dart';
 
 class AdminManageUserScreen extends StatefulWidget {
   @override
@@ -13,26 +15,42 @@ class _AdminManageUserScreenState extends State<AdminManageUserScreen> {
     var arguments =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     return Scaffold(
+      drawer: AdminDrawer(token: arguments['auth']),
       appBar: AppBar(
         title: Text('Manage Users'),
       ),
-      body: ListView.builder(itemBuilder: (context, index) {
-        return ListTile(
-          leading: Icon(Icons.account_circle),
-          title: Text(arguments['users'][index]['email']),
-          trailing: IconButton(
-            icon: Icon(Icons.delete_forever),
-            onPressed: () async {
-              http.Response response = await http.post(
-                  consts.deactivateAccount +
-                      '${arguments['users'][index]['userid']}',
-                  headers: {
-                    'authorization': arguments['users'][index]['auth']
-                  });
-            },
-          ),
-        );
-      }),
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: ListView.builder(
+          itemCount: (arguments['users'] as List).length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text(arguments['users'][index]['email']),
+              trailing: IconButton(
+                icon: Icon(Icons.delete_forever, color: Colors.red,),
+                onPressed: () async {
+                  http.Response response = await http.post(
+                    consts.deactivateAccount +
+                        '${arguments['users'][index]['id']}',
+                    headers: {
+                      'authorization': arguments['auth'],
+                      'Content-Type': 'application/json;charset=UTF-8'
+                    },
+                  );
+                  if(response.statusCode == HttpStatus.ok){
+                    setState(() {
+                      (arguments['users'] as List).removeAt(index);
+                    });
+                  }
+                  print(response.statusCode);
+
+                },
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }
