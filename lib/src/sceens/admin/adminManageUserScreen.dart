@@ -10,6 +10,8 @@ class AdminManageUserScreen extends StatefulWidget {
 }
 
 class _AdminManageUserScreenState extends State<AdminManageUserScreen> {
+
+
   @override
   Widget build(BuildContext context) {
     var arguments =
@@ -31,6 +33,8 @@ class _AdminManageUserScreenState extends State<AdminManageUserScreen> {
                 leading: Icon(Icons.account_circle),
                 title: Text(arguments['users'][index]['email']),
                 trailing: Switch(
+                  activeColor: Colors.green,
+                  inactiveTrackColor: Colors.red,
                   value: arguments['users'][index]['deactivatedAt'] == null
                       ? true
                       : false,
@@ -47,6 +51,20 @@ class _AdminManageUserScreenState extends State<AdminManageUserScreen> {
                       if (response.statusCode == HttpStatus.ok) {
                         setState(() {
                           newValue = false;
+                        });
+                      }
+                    }else {
+                      http.Response response = await http.post(
+                        consts.deactivateUserUrl +
+                            '${arguments['users'][index]['id']}',
+                        headers: {
+                          'authorization': arguments['auth'],
+                          'Content-Type': 'application/json;charset=UTF-8'
+                        },
+                      );
+                      if (response.statusCode == HttpStatus.ok) {
+                        setState(() {
+                          newValue = true;
                         });
                       }
                     }

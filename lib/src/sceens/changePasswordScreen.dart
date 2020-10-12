@@ -71,7 +71,7 @@ class _ChangePassworScreenState extends State<ChangePassworScreen> {
                     image: AssetImage('assets/images/fair-rates-logo.png')))),
       ),
       body: Container(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             SizedBox(
@@ -136,18 +136,15 @@ class _ChangePassworScreenState extends State<ChangePassworScreen> {
                           },
                         ),
                         SizedBox(height: 20.0),
-                        RaisedButton(
-                            color: Color.fromRGBO(56, 69, 81, 1),
+                        FlatButton(
+                            color: Colors.teal[200],
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                side: BorderSide(color: Colors.white)),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                             child: Container(
                               width: 200,
                               child: Center(
-                                child: Text(
-                                  "Change password",
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                                child: Text("Change password"),
                               ),
                             ),
                             onPressed: () async {
