@@ -27,7 +27,7 @@ class _AdminManageUserScreenState extends State<AdminManageUserScreen> {
             return ListTile(
               leading: Icon(Icons.account_circle),
               title: Text(arguments['users'][index]['email']),
-              trailing: IconButton(
+              trailing: Switch(value: null, onChanged: null)/* IconButton(
                 icon: Icon(Icons.delete_forever, color: Colors.red,),
                 onPressed: () async {
                   http.Response response = await http.post(
@@ -45,7 +45,7 @@ class _AdminManageUserScreenState extends State<AdminManageUserScreen> {
                   print(response.statusCode);
 
                 },
-              ),
+              ), */
             );
           },
         ),
