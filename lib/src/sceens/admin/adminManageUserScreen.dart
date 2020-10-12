@@ -15,7 +15,10 @@ class _AdminManageUserScreenState extends State<AdminManageUserScreen> {
     var arguments =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     return Scaffold(
-      drawer: AdminDrawer(token: arguments['auth']),
+      drawer: AdminDrawer(
+        auth: arguments['auth'],
+        userInfo: arguments['userInfo'],
+      ),
       appBar: AppBar(
         title: Text('Manage Users'),
       ),
@@ -25,9 +28,30 @@ class _AdminManageUserScreenState extends State<AdminManageUserScreen> {
           itemCount: (arguments['users'] as List).length,
           itemBuilder: (context, index) {
             return ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text(arguments['users'][index]['email']),
-              trailing: Switch(value: null, onChanged: null)/* IconButton(
+                leading: Icon(Icons.account_circle),
+                title: Text(arguments['users'][index]['email']),
+                trailing: Switch(
+                  value: arguments['users'][index]['deactivatedAt'] == null
+                      ? true
+                      : false,
+                  onChanged: (bool newValue) async {
+                    if (arguments['users'][index]['deactivatedAt'] == null) {
+                      http.Response response = await http.post(
+                        consts.deactivateUserUrl +
+                            '${arguments['users'][index]['id']}',
+                        headers: {
+                          'authorization': arguments['auth'],
+                          'Content-Type': 'application/json;charset=UTF-8'
+                        },
+                      );
+                      if (response.statusCode == HttpStatus.ok) {
+                        setState(() {
+                          newValue = false;
+                        });
+                      }
+                    }
+                  },
+                ) /* IconButton(
                 icon: Icon(Icons.delete_forever, color: Colors.red,),
                 onPressed: () async {
                   http.Response response = await http.post(
@@ -46,7 +70,7 @@ class _AdminManageUserScreenState extends State<AdminManageUserScreen> {
 
                 },
               ), */
-            );
+                );
           },
         ),
       ),

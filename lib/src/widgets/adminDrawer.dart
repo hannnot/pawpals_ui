@@ -5,44 +5,47 @@ import 'package:http/http.dart' as http;
 import 'package:pawpals_ui/src/consts.dart' as consts;
 
 class AdminDrawer extends StatelessWidget {
+  final auth;
+  final userInfo;
 
-  final token;
+  AdminDrawer({@required this.auth, @required this.userInfo});
 
-  AdminDrawer({@required this.token});
-
-  Future<List<Map<String, dynamic>>> getUsers()async{
-    http.Response response = await http.get(consts.usersUrl, headers: {'authorization': token});
-    return List<Map<String,dynamic>>.from(json.decode(response.body));
+  Future<List<Map<String, dynamic>>> getUsers() async {
+    http.Response response =
+        await http.get(consts.usersUrl, headers: {'Authorization': auth});
+        print(json.decode(response.body));
+    return List<Map<String, dynamic>>.from(json.decode(response.body));
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         children: [
           DrawerHeader(
-            child: Image(image: AssetImage('assets/images/pawPalsLogo.png'))
-          ),
+              child: Image(image: AssetImage('assets/images/pawPalsLogo.png'))),
           ListTile(
             leading: Icon(Icons.account_circle),
             title: Text('My account'),
-            onTap: () {
-              // TODO implement account page
-            },
+            onTap: () => Navigator.of(context).pushNamed('/admin-account',
+                arguments: {'auth': auth, 'userInfo': userInfo}),
           ),
           ListTile(
             leading: Icon(Icons.supervisor_account),
             title: Text('Manage users'),
             onTap: () async {
               var users = await getUsers();
-              Navigator.of(context).pushNamed('/manage-users', arguments: {'auth': token, 'users': users});
+              Navigator.of(context).pushNamed('/manage-users', arguments: {
+                'auth': auth,
+                'users': users,
+                'userInfo': userInfo
+              });
             },
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
             onTap: () {
-
               // TODO make networkrequest to logout
               Navigator.of(context).pushReplacementNamed('/');
             },

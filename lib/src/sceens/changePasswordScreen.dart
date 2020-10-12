@@ -64,7 +64,6 @@ class _ChangePassworScreenState extends State<ChangePassworScreen> {
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(56, 69, 81, 1),
         title: Center(
             child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 50),

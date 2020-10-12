@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class UserDrawer extends StatelessWidget {
-  final token;
+  final auth;
+  final userInfo;
 
-  UserDrawer({@required this.token});
+  UserDrawer({@required this.auth, @required this.userInfo});
 
   @override
   Widget build(BuildContext context) {

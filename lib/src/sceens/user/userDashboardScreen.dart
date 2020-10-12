@@ -7,7 +7,10 @@ class UserDashboardScreen extends StatelessWidget {
     var arguments =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     return Scaffold(
-      drawer: UserDrawer(token: arguments['auth']),
+      drawer: UserDrawer(
+        auth: arguments['auth'],
+        userInfo: arguments['userInfo'],
+      ),
       appBar: AppBar(
         title: Text('Welcome'),
       ),

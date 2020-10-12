@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pawpals_ui/src/sceens/admin/adminAccountScreen.dart';
 import 'package:pawpals_ui/src/sceens/admin/adminDashboardScreen.dart';
 import 'package:pawpals_ui/src/sceens/admin/adminManageUserScreen.dart';
 import 'package:pawpals_ui/src/sceens/changePasswordScreen.dart';
@@ -21,6 +22,7 @@ class App extends StatelessWidget {
           '/user-dashboard': (context) => UserDashboardScreen(),
           '/manage-users': (context) => AdminManageUserScreen(),
           '/change-pwd' : (context) => ChangePassworScreen(),
+          '/admin-account' : (context) => AdminAccountScreen(),
         });
   }
 }

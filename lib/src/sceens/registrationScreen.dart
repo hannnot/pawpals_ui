@@ -157,7 +157,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       hoverColor: Colors.teal[100],
                       color: Colors.teal[200],
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       onPressed: _saveForm,
                       child: Container(
                         width: 150,
