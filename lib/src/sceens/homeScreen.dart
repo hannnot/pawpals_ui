@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if (response.headers['authorization'] != '') {
         var token = response.headers['authorization'].split(' ')[1];
         Map<String, dynamic> decodedUser = JwtDecoder.decode(token);
-        
+
         if ((decodedUser['roles'] as List).contains('ADMIN')) {
           Navigator.of(context).pushReplacementNamed('/admin-dashboard',
               arguments: {
@@ -100,11 +100,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       hoverColor: Colors.teal[100],
                       color: Colors.teal[200],
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      onPressed:
-                          _saveForm /* () => Navigator.of(context)
-                          .pushReplacementNamed('/user-dashboard') */
-                      ,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      onPressed: _saveForm,
                       child: Container(
                         width: 150,
                         child: Center(child: Text('Login')),
