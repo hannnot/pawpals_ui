@@ -5,6 +5,7 @@ import 'package:pawpals_ui/src/sceens/admin/adminManageUserScreen.dart';
 import 'package:pawpals_ui/src/sceens/changePasswordScreen.dart';
 import 'package:pawpals_ui/src/sceens/homeScreen.dart';
 import 'package:pawpals_ui/src/sceens/registrationScreen.dart';
+import 'package:pawpals_ui/src/sceens/requestSitScreen.dart';
 import 'package:pawpals_ui/src/sceens/user/userDashboardScreen.dart';
 
 class App extends StatelessWidget {
@@ -23,6 +24,7 @@ class App extends StatelessWidget {
           '/manage-users': (context) => AdminManageUserScreen(),
           '/change-pwd' : (context) => ChangePassworScreen(),
           '/admin-account' : (context) => AdminAccountScreen(),
+          '/request-sit' : (context) => RequestSitScreen(),
         });
   }
 }

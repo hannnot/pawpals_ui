@@ -25,8 +25,7 @@ class UserDrawer extends StatelessWidget {
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
             onTap: () {
-              // TODO make networkrequest to logout
-              // Navigate to login screen
+             Navigator.of(context).pushReplacementNamed('/');
             },
           )
         ],
