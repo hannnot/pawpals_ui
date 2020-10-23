@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.of(context).pushReplacementNamed('/user-dashboard',
               arguments: {
                 'auth': response.headers['authorization'],
-                'userInfo': decodedUser
+                'userInfo': userinfo
               });
         }
       }

@@ -46,7 +46,6 @@ class AdminDrawer extends StatelessWidget {
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
             onTap: () {
-              // TODO make networkrequest to logout
               Navigator.of(context).pushReplacementNamed('/');
             },
           ),
