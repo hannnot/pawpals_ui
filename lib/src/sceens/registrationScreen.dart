@@ -44,7 +44,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             http.Response userResponse = await http
                 .get(consts.getUserByEmail + decodedUser['email'], headers: {
               'Content-Type': 'application/json;charset=UTF-8',
-              'authorization': response.headers['authorization']
+              'authorization': regResponse.headers['authorization']
             });
             var userinfo =
                 Map<String, dynamic>.from(json.decode(userResponse.body));
