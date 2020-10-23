@@ -5,3 +5,4 @@ final String registerUrl = _apiBaseUrl + 'api/users/register';
 final String usersUrl = _apiBaseUrl + 'api/users';
 final String activateUserUrl = _apiBaseUrl + 'api/users/activate/'; // + userId
 final String deactivateUserUrl = _apiBaseUrl + 'api/users/deactivate/'; // + userId
+final String getUserByEmail = _apiBaseUrl + 'api/users/email/'; // + email

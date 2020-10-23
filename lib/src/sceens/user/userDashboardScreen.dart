@@ -31,7 +31,7 @@ class UserDashboardScreen extends StatelessWidget {
               onPressed: null, //TODO add Browse Sits screen
               child: Container(
                 width: 150,
-                child: Text('Browse Sits'),
+                child: Center(child: Text('Browse Sits')),
               ),
               color: Colors.teal[200],
             ),
@@ -43,7 +43,7 @@ class UserDashboardScreen extends StatelessWidget {
               onPressed: null, //TODO add Request Sit screen
               child: Container(
                 width: 150,
-                child: Text('Request Sit'),
+                child: Center(child: Text('Request Sit')),
               ),
               color: Colors.teal[200],
             ),

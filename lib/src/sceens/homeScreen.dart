@@ -24,16 +24,21 @@ class _HomeScreenState extends State<HomeScreen> {
       http.Response response = await http.post(consts.loginUrl,
           body: jsonEncode(<String, dynamic>{'email': email, 'password': pwd}),
           headers: {'Content-Type': 'application/json;charset=UTF-8'});
-
       if (response.headers['authorization'] != '') {
         var token = response.headers['authorization'].split(' ')[1];
         Map<String, dynamic> decodedUser = JwtDecoder.decode(token);
-
+        http.Response userResponse = await http
+            .get(consts.getUserByEmail + decodedUser['email'], headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'authorization': response.headers['authorization']
+        });
+        var userinfo = Map<String, dynamic>.from(json.decode(userResponse.body));
+        
         if ((decodedUser['roles'] as List).contains('ADMIN')) {
           Navigator.of(context).pushReplacementNamed('/admin-dashboard',
               arguments: {
                 'auth': response.headers['authorization'],
-                'userInfo': decodedUser
+                'userInfo': userinfo
               });
         } else {
           Navigator.of(context).pushReplacementNamed('/user-dashboard',

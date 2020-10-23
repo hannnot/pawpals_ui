@@ -38,9 +38,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 jsonEncode(<String, dynamic>{'email': email, 'password': pwd}),
             headers: {'Content-Type': 'application/json;charset=UTF-8'});
         if (regResponse.statusCode == HttpStatus.ok) {
+          
           if (regResponse.headers['authorization'] != '') {
             var token = regResponse.headers['authorization'].split(' ')[1];
             Map<String, dynamic> decodedUser = JwtDecoder.decode(token);
+            http.Response userResponse = await http.get(consts.getUserByEmail + decodedUser['email']);
+            print(userResponse);
+            print(decodedUser);
             Navigator.of(context).pushReplacementNamed('/user-dashboard',
                 arguments: {
                   'auth': response.headers['authorization'],

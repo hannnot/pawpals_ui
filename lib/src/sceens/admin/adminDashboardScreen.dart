@@ -23,7 +23,7 @@ class AdminDashboardScreen extends StatelessWidget {
             Center(child: CircleAvatar(radius: 50)),
             SizedBox(height: 20),
             Center(
-              child: Text(arguments['userInfo']['sub'], style: TextStyle(fontSize: 20)),
+              child: Text(arguments['userInfo']['firstname'], style: TextStyle(fontSize: 20)),
             ),
             SizedBox(height: 50),
             FlatButton(
