@@ -14,40 +14,41 @@ class UserDashboardScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Welcome'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 15),
-            Center(child: CircleAvatar(radius: 40)),
-            SizedBox(height: 10),
-            Center(
-              child: Text(arguments['userInfo']['firstname']),
-            ),
-            SizedBox(height: 30),
-            FlatButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Center(child: CircleAvatar(radius: 40)),
+              SizedBox(height: 10),
+              Center(
+                child: Text(arguments['userInfo']['firstname']),
               ),
-              onPressed: null, //TODO add Browse Sits screen
-              child: Container(
-                width: 150,
-                child: Center(child: Text('Browse Sits')),
+              SizedBox(height: 50),
+              FlatButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                onPressed: () {}, //TODO add Browse Sits screen
+                child: Container(
+                  width: 150,
+                  child: Center(child: Text('Browse Sits')),
+                ),
+                color: Colors.teal[200],
               ),
-              color: Colors.teal[200],
-            ),
-            SizedBox(height: 15),
-            FlatButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+              SizedBox(height: 15),
+              FlatButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                onPressed: () {}, //TODO add Request Sit screen
+                child: Container(
+                  width: 150,
+                  child: Center(child: Text('Request Sit')),
+                ),
+                color: Colors.teal[200],
               ),
-              onPressed: null, //TODO add Request Sit screen
-              child: Container(
-                width: 150,
-                child: Center(child: Text('Request Sit')),
-              ),
-              color: Colors.teal[200],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
