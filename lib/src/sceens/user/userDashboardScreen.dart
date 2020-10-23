@@ -40,7 +40,12 @@ class UserDashboardScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                onPressed: () {}, //TODO add Request Sit screen
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/request-sit', arguments: {
+                    'auth': arguments['auth'],
+                    'userInfo': arguments['userInfo'],
+                  });
+                }, 
                 child: Container(
                   width: 150,
                   child: Center(child: Text('Request Sit')),
