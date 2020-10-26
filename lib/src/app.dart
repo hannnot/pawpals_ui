@@ -14,6 +14,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'PawPals',
         theme: ThemeData(
           appBarTheme: AppBarTheme(color: Colors.teal[800]),
@@ -24,11 +25,11 @@ class App extends StatelessWidget {
           '/admin-dashboard': (context) => AdminDashboardScreen(),
           '/user-dashboard': (context) => UserDashboardScreen(),
           '/manage-users': (context) => AdminManageUserScreen(),
-          '/change-pwd' : (context) => ChangePassworScreen(),
-          '/admin-account' : (context) => AdminAccountScreen(),
-          '/request-sit' : (context) => RequestSitScreen(),
+          '/change-pwd': (context) => ChangePassworScreen(),
+          '/admin-account': (context) => AdminAccountScreen(),
+          '/request-sit': (context) => RequestSitScreen(),
           '/settings': (context) => SettingsScreen(),
-          '/user-account' : (context) => UserAccountScreen(),
+          '/user-account': (context) => UserAccountScreen(),
         });
   }
 }
