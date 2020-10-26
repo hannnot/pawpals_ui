@@ -13,7 +13,6 @@ class AdminDrawer extends StatelessWidget {
   Future<List<Map<String, dynamic>>> getUsers() async {
     http.Response response =
         await http.get(consts.usersUrl, headers: {'Authorization': auth});
-        print(json.decode(response.body));
     return List<Map<String, dynamic>>.from(json.decode(response.body));
   }
 
@@ -24,6 +23,16 @@ class AdminDrawer extends StatelessWidget {
         children: [
           DrawerHeader(
               child: Image(image: AssetImage('assets/images/pawPalsLogo.png'))),
+          ListTile(
+            leading: Icon(Icons.home),
+            title: Text('Dashboard'),
+            onTap: () {
+              Navigator.of(context).pushNamed('/admin-dashboard', arguments: {
+                'auth': auth,
+                'userInfo': userInfo,
+              });
+            },
+          ),
           ListTile(
             leading: Icon(Icons.account_circle),
             title: Text('My account'),
@@ -42,6 +51,7 @@ class AdminDrawer extends StatelessWidget {
               });
             },
           ),
+          SizedBox(height: 150),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),

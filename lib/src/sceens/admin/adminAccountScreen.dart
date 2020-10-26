@@ -18,17 +18,19 @@ class AdminAccountScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            FlatButton.icon(
-              onPressed: () => Navigator.of(context).pushNamed('/change-pwd',
-                  arguments: {
-                    'auth': arguments['auth'],
-                    'userInfo': arguments['userInfo']
-                  }),
-              icon: Icon(Icons.lock),
-              label: Text('Change password'),
-              color: Colors.teal[200],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+            Center(
+              child: FlatButton.icon(
+                onPressed: () => Navigator.of(context).pushNamed('/change-pwd',
+                    arguments: {
+                      'auth': arguments['auth'],
+                      'userInfo': arguments['userInfo']
+                    }),
+                icon: Icon(Icons.lock),
+                label: Text('Change password'),
+                color: Colors.teal[200],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
             )
           ],

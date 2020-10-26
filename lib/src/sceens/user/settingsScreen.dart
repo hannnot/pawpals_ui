@@ -1,46 +1,44 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:pawpals_ui/src/widgets/userDrawer.dart';
 import 'package:http/http.dart' as http;
 import 'package:pawpals_ui/src/consts.dart' as consts;
-import 'package:pawpals_ui/src/widgets/adminDrawer.dart';
 
-class AdminManageUserScreen extends StatefulWidget {
+class SettingsScreen extends StatefulWidget {
   @override
-  _AdminManageUserScreenState createState() => _AdminManageUserScreenState();
+  _SettingsScreenState createState() => _SettingsScreenState();
 }
 
-class _AdminManageUserScreenState extends State<AdminManageUserScreen> {
+class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     var arguments =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     return Scaffold(
-      drawer: AdminDrawer(
-        auth: arguments['auth'],
-        userInfo: arguments['userInfo'],
-      ),
       appBar: AppBar(
-        title: Text('Manage Users'),
+        title: Text('Settings'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: ListView.builder(
-          itemCount: (arguments['users'] as List).length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text(arguments['users'][index]['email']),
-              trailing: Switch(
-                activeColor: Colors.green,
-                inactiveTrackColor: Colors.red,
-                value: arguments['users'][index]['deactivatedAt'] == null
+      drawer: UserDrawer(
+        auth: null,
+        userInfo: null,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              SwitchListTile(
+                title: Text('Deactivate/ activate account'),
+                value: arguments['userInfo']['deactivatedAt'] == null
                     ? true
                     : false,
                 onChanged: (bool newValue) async {
-                  if (arguments['users'][index]['deactivatedAt'] == null) {
+                  if (arguments['userInfo']['deactivatedAt'] == null) {
+                    var consts;
                     http.Response response = await http.post(
                       consts.deactivateUserUrl +
-                          '${arguments['users'][index]['id']}',
+                          '${arguments['userInfo']['id']}',
                       headers: {
                         'authorization': arguments['auth'],
                         'Content-Type': 'application/json;charset=UTF-8'
@@ -54,7 +52,7 @@ class _AdminManageUserScreenState extends State<AdminManageUserScreen> {
                   } else {
                     http.Response response = await http.post(
                       consts.deactivateUserUrl +
-                          '${arguments['users'][index]['id']}',
+                          '${arguments['userInfo']['id']}',
                       headers: {
                         'authorization': arguments['auth'],
                         'Content-Type': 'application/json;charset=UTF-8'
@@ -67,9 +65,9 @@ class _AdminManageUserScreenState extends State<AdminManageUserScreen> {
                     }
                   }
                 },
-              ),
-            );
-          },
+              )
+            ],
+          ),
         ),
       ),
     );

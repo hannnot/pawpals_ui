@@ -64,11 +64,7 @@ class _ChangePassworScreenState extends State<ChangePassworScreen> {
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-            child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 50),
-                child: Image(
-                    image: AssetImage('assets/images/fair-rates-logo.png')))),
+        title: Text('Change password'),
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
