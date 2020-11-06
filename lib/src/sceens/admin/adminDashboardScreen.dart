@@ -17,6 +17,12 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     return List<Map<String, dynamic>>.from(json.decode(response.body));
   }
 
+  Future<List<Map<String, dynamic>>> getAnimals(String auth) async {
+    http.Response response =
+        await http.get(consts.getAnimalsUrl, headers: {'authorization': auth});
+    return List<Map<String, dynamic>>.from(json.decode(response.body));
+  }
+
   @override
   Widget build(BuildContext context) {
     var arguments =
@@ -65,11 +71,16 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/request-sit', arguments: {
-                    'auth': arguments['auth'],
-                    'userInfo': arguments['userInfo'],
-                  });
+                onPressed: ()async {
+                  var animals = await getAnimals(arguments['auth']);
+                  Navigator.of(context).pushNamed(
+                    '/request-sit',
+                    arguments: {
+                      'auth': arguments['auth'],
+                      'userInfo': arguments['userInfo'],
+                      'userAnimals': animals,
+                    },
+                  );
                 },
                 child: Container(
                   width: 150,

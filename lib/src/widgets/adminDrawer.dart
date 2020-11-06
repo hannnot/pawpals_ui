@@ -16,6 +16,12 @@ class AdminDrawer extends StatelessWidget {
     return List<Map<String, dynamic>>.from(json.decode(response.body));
   }
 
+  Future<List<Map<String, dynamic>>> getUserAnimals(String auth) async {
+    http.Response response =
+        await http.get(consts.getAnimalsUrl, headers: {'authorization': auth});
+    return List<Map<String, dynamic>>.from(json.decode(response.body));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -37,16 +43,19 @@ class AdminDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text('My account'),
-            onTap: () => Navigator.of(context).pushNamed(
-              '/admin-account',
-              arguments: {
-                'auth': auth,
-                'userInfo': userInfo,
-              },
-            ),
-          ),
+              leading: Icon(Icons.account_circle),
+              title: Text('My account'),
+              onTap: () async {
+                var animals = await getUserAnimals(auth);
+                Navigator.of(context).pushNamed(
+                  '/admin-account',
+                  arguments: {
+                    'auth': auth,
+                    'userInfo': userInfo,
+                    'animals': animals,
+                  },
+                );
+              }),
           ListTile(
             leading: Icon(Icons.supervisor_account),
             title: Text('Manage users'),

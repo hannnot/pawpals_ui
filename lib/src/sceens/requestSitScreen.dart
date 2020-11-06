@@ -18,7 +18,7 @@ class _RequestSitScreenState extends State<RequestSitScreen> {
 
   DateTime startDateTime;
   DateTime endDateTime;
-  Map<String,dynamic> animal;
+  Map<String, dynamic> animal;
   String activeActivity = 'Walk';
   int dropDownValue;
   List<String> activity = [
@@ -94,133 +94,157 @@ class _RequestSitScreenState extends State<RequestSitScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              ListTile(
-                leading: Icon(Icons.emoji_nature),
-                title: animal== null? Text('Select your animal') : Text(animal['animal']['name']),
-                subtitle: animal==null? Text('') : Text(animal['animal']['breed']),
-                trailing: animal == null?Text(''): Text('Age: ${animal['animal']['age']}'),
-                onTap: () async {
-                  var animals = await Navigator.of(context).pushNamed(
-                    '/select-animal',
-                    arguments: {'userAnimals': arguments['userAnimals']},
-                  );
-                  setState(() {
-                    animal = animals;
-                  });
-                }, 
-              ),
-              Container(
-                color: Colors.teal[200],
-                width: double.infinity,
-                padding: EdgeInsets.all(10),
-                child: Center(
+          child: arguments['userAnimals'] == null
+              ? Center(
                   child: Text(
-                    'Select start and end date',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                      'To request a sit you must at least have one animal added'),
+                )
+              : Column(
+                  children: [
+                    ListTile(
+                      leading: Icon(Icons.emoji_nature),
+                      title: animal == null
+                          ? Text('Select your animal')
+                          : Text(animal['animal']['name']),
+                      subtitle: animal == null
+                          ? Text('')
+                          : Text(animal['animal']['breed']),
+                      trailing: animal == null
+                          ? Text('')
+                          : Text('Age: ${animal['animal']['age']}'),
+                      onTap: () async {
+                        var animals = await Navigator.of(context).pushNamed(
+                          '/select-animal',
+                          arguments: {'userAnimals': arguments['userAnimals']},
+                        );
+                        setState(() {
+                          animal = animals;
+                        });
+                      },
+                    ),
+                    Container(
+                      color: Colors.teal[200],
+                      width: double.infinity,
+                      padding: EdgeInsets.all(10),
+                      child: Center(
+                        child: Text(
+                          'Select start and end date',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    ListTile(
+                      onTap: () async {
+                        await _selectStartDate();
+                        setState(() {});
+                      },
+                      leading: Icon(
+                        Icons.calendar_today,
+                        color: Colors.teal,
+                      ),
+                      title: startDateTime != null
+                          ? Text(
+                              'From ${DateFormat('d MMMM y').format(startDateTime)} at ${DateFormat('hh:mm').format(startDateTime)}')
+                          : Text('Please select start time'),
+                    ),
+                    ListTile(
+                      onTap: () async {
+                        await _selectEndDate();
+                        setState(() {});
+                      },
+                      leading: Icon(
+                        Icons.date_range_outlined,
+                        color: Colors.teal,
+                      ),
+                      title: endDateTime != null
+                          ? Text(
+                              'To ${DateFormat('d MMMM y').format(endDateTime)} at ${DateFormat('hh:mm').format(endDateTime)}')
+                          : Text('Please select end time'),
+                    ),
+                    SizedBox(height: 30),
+                    Container(
+                      color: Colors.teal[200],
+                      width: double.infinity,
+                      padding: EdgeInsets.all(10),
+                      child: Center(
+                        child: Text(
+                          'Select activity',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Container(
+                      height: 170,
+                      child: ListView.builder(
+                          itemCount: activity.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                RadioListTile(
+                                  onChanged: (value) {
+                                    setState(() {
+                                      activeActivity = value;
+                                    });
+                                  },
+                                  groupValue: activeActivity,
+                                  value: activity[index],
+                                  title: Text(activity[index]),
+                                )
+                              ],
+                            );
+                          }),
+                    ),
+                    SizedBox(height: 30),
+                    FlatButton(
+                      hoverColor: Colors.teal[100],
+                      color: Colors.teal,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      onPressed: () async {
+                        Map<String, dynamic> body = {
+                          'startDate': startDateTime.toIso8601String(),
+                          'endDate': endDateTime.toIso8601String(),
+                          'activities': activeActivity,
+                          'animal': {
+                            'name': animal['animal']['name'],
+                            'age': animal['animal']['age'],
+                            'gender': animal['animal']['gender'],
+                            'breed': animal['animal']['breed'],
+                            'weight': animal['animal']['weight'],
+                            'height': animal['animal']['height'],
+                            'fears': animal['animal']['fears'],
+                            'about': animal['animal']['about']
+                          },
+                        };
+
+                        http.Response response = await http.post(
+                          consts.requestSitUrl,
+                          body: jsonEncode(body),
+                          headers: {
+                            'authorization': arguments['auth'],
+                            'Content-Type': 'application/json;charset=UTF-8'
+                          },
+                        );
+                        print(response.statusCode);
+                        print(response.body);
+                        if (response.statusCode == HttpStatus.created) {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      child: Container(
+                        width: 150,
+                        child: Center(
+                            child: Text(
+                          'Request Sit',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(height: 15),
-              ListTile(
-                onTap: () async {
-                  await _selectStartDate();
-                  setState(() {});
-                },
-                leading: Icon(
-                  Icons.calendar_today,
-                  color: Colors.teal,
-                ),
-                title: startDateTime != null
-                    ? Text(
-                        'From ${DateFormat('d MMMM y').format(startDateTime)} at ${DateFormat('hh:mm').format(startDateTime)}')
-                    : Text('Please select start time'),
-              ),
-              ListTile(
-                onTap: () async {
-                  await _selectEndDate();
-                  setState(() {});
-                },
-                leading: Icon(
-                  Icons.date_range_outlined,
-                  color: Colors.teal,
-                ),
-                title: endDateTime != null
-                    ? Text(
-                        'To ${DateFormat('d MMMM y').format(endDateTime)} at ${DateFormat('hh:mm').format(endDateTime)}')
-                    : Text('Please select end time'),
-              ),
-              SizedBox(height: 30),
-              Container(
-                color: Colors.teal[200],
-                width: double.infinity,
-                padding: EdgeInsets.all(10),
-                child: Center(
-                  child: Text(
-                    'Select activity',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-              SizedBox(height: 15),
-              Container(
-                height: 170,
-                child: ListView.builder(
-                    itemCount: activity.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          RadioListTile(
-                            onChanged: (value) {
-                              setState(() {
-                                activeActivity = value;
-                              });
-                            },
-                            groupValue: activeActivity,
-                            value: activity[index],
-                            title: Text(activity[index]),
-                          )
-                        ],
-                      );
-                    }),
-              ),
-              SizedBox(height: 30),
-              FlatButton(
-                hoverColor: Colors.teal[100],
-                color: Colors.teal,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                onPressed: () async {
-                  http.Response response = await http.post(
-                    consts.requestSitUrl,
-                    body: jsonEncode(<String, dynamic>{
-                      'startDate': startDateTime.toIso8601String(),
-                      'endDate': endDateTime.toIso8601String(),
-                      'activities': activeActivity,
-                      'animal': json.encode(animal['animal']),
-                    }),
-                    headers: {
-                      'authorization': arguments['auth'],
-                      'Content-Type': 'application/json;charset=UTF-8'
-                    },
-                  );
-                  if (response.statusCode == HttpStatus.ok) {
-                    Navigator.of(context).pop();
-                  }
-                },
-                child: Container(
-                  width: 150,
-                  child: Center(
-                      child: Text(
-                    'Request Sit',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

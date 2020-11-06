@@ -18,6 +18,21 @@ class AdminAccountScreen extends StatelessWidget {
     var arguments =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.teal[200],
+        label: Text(
+          'Add an animal',
+          style: TextStyle(color: Colors.teal[800]),
+        ),
+        onPressed: () => Navigator.of(context).pushNamed(
+          '/add-animals',
+          arguments: {
+            'auth': arguments['auth'],
+            'userInfo': arguments['userInfo']
+          },
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       drawer: AdminDrawer(
         auth: arguments['auth'],
         userInfo: arguments['userInfo'],
